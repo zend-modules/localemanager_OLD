@@ -1,0 +1,25 @@
+{
+    "name": "zend-modules/localemanager",
+    "description": "Locale Manager for ZF2",
+    "license": "GPLv3",
+    "require": {
+        "php": ">=5.3.23",
+        "ext-intl": ">2.0.0",
+        "zendframework/zend-eventmanager": "2.4.8",
+        "zendframework/zend-i18n": "2.4.8",
+        "zendframework/zend-modulemanager": "2.4.8",
+        "zendframework/zend-mvc": "2.4.8",
+        "zendframework/zend-servicemanager": "2.4.8",
+        "zendframework/zend-stdlib": "2.4.8",
+        "zendframework/zend-uri": "2.4.8",
+        "zendframework/zend-view": "2.4.8"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "LocaleManager\\" : "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    },
+}
