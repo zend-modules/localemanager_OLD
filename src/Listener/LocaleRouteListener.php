@@ -12,6 +12,7 @@ namespace LocaleManager\Listener;
 use LocaleManager\LocaleManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
+use Zend\I18n\Translator\TranslatorAwareInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\Http\RouteMatch;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -64,6 +65,15 @@ class LocaleRouteListener extends AbstractListenerAggregate
                 if ($localeManager instanceof LocaleManagerInterface) {
                     $localeManager->setLocale($locale);
                 }
+            }
+        }
+
+        // Set the router translator's locale
+        $router = $e->getRouter();
+        if ($router instanceof TranslatorAwareInterface) {
+            $translator = $router->getTranslator();
+            if (method_exists($translator, 'setLocale')) {
+                $translator->setLocale($locale);
             }
         }
 
