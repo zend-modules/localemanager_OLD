@@ -165,6 +165,20 @@ class LocaleManager implements LocaleManagerInterface
     }
 
     /**
+     * Check if the given locale is the default locale.
+     *
+     * @param string $locale
+     * @return bool
+     */
+    public function isDefaultLocale($locale)
+    {
+        $locale  = \Locale::canonicalize($locale);
+        $default = $this->getDefaultLocale();
+
+        return ($default === $locale);
+    }
+
+    /**
      * Set the default locale
      * 
      * @param string $locale The locale
@@ -244,5 +258,20 @@ class LocaleManager implements LocaleManagerInterface
         // Set the locale
         $this->locale = $locale;
         return $this;
+    }
+
+    /**
+     * Standarize a locale.
+     * 
+     * @param string $locale
+     * @return string
+     */
+    public static function standarizeLocale($locale)
+    {
+        $locale   = \Locale::canonicalize($locale);
+        $language = \Locale::getPrimaryLanguage($locale);
+        $region   = \Locale::getRegion($locale);
+
+        return $language . (!empty($region) ? '-' . $region : '');
     }
 }

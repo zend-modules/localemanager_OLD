@@ -9,19 +9,15 @@
 
 namespace LocaleManager\Service;
 
-use ZendModules\LocaleManager\Listener\RenderListener;
-
-use LocaleManager\LocaleManagerInterface;
-
-use LocaleManager\Listener\ViewRenderListener;
-
-use Zend\I18n\Translator\TranslatorAwareInterface;
-
 use LocaleManager\Listener\DispatchListener;
+use LocaleManager\Listener\LocaleRouteListener;
+use LocaleManager\Listener\ViewRenderListener;
 use LocaleManager\LocaleManager;
 use LocaleManager\LocaleManagerAwareInterface;
+use LocaleManager\LocaleManagerInterface;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
+use Zend\I18n\Translator\TranslatorAwareInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -90,15 +86,15 @@ class LocaleManagerFactory implements FactoryInterface
             $localeManager->addTranslator($translator);
         }
 
-        if ($serviceLocator->has('Router')) {
-            $router = $serviceLocator->get('Router');
-            if ($router instanceof LocaleManagerAwareInterface) {
-                $router->setLocaleManager($localeManager);
-                $localeManager->addTranslator( $router->getTranslator() );
-            } elseif ($router instanceof TranslatorAwareInterface) {
-                $localeManager->addTranslator( $router->getTranslator() );
-            }
-        }
+        //if ($serviceLocator->has('Router')) {
+        //    $router = $serviceLocator->get('Router');
+        //    if ($router instanceof LocaleManagerAwareInterface) {
+        //        $router->setLocaleManager($localeManager);
+        //        $localeManager->addTranslator( $router->getTranslator() );
+        //    } elseif ($router instanceof TranslatorAwareInterface) {
+        //        $localeManager->addTranslator( $router->getTranslator() );
+        //    }
+        //}
 
         // Listeners
         if ($serviceLocator->has('Application')) {
@@ -123,6 +119,9 @@ class LocaleManagerFactory implements FactoryInterface
 
     protected function attachDefaultListeners(EventManagerInterface $events)
     {
+        $listener = new LocaleRouteListener();
+        $events->attach( $listener );
+
         $listener = new DispatchListener();
         $events->attach( $listener );
     }

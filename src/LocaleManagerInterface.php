@@ -64,6 +64,14 @@ interface LocaleManagerInterface
     public function hasLocale($locale);
 
     /**
+     * Check if the given locale is the default locale.
+     *
+     * @param string $locale
+     * @return bool
+     */
+    public function isDefaultLocale($locale);
+
+    /**
      * Set the default locale
      * 
      * @param string $locale The locale
